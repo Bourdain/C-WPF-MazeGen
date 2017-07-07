@@ -23,7 +23,7 @@ namespace WpfApplication1
         public MainWindow()
         {
             InitializeComponent();
-            MazeGen.Maze m = new MazeGen.Maze(20,5);
+            MazeGen.Maze_Recursive_Backtracker m = new MazeGen.Maze_Recursive_Backtracker(20,5);
 
 
             int size = 25;
@@ -31,11 +31,11 @@ namespace WpfApplication1
             Line l;
             Line l2 = new Line();
 
-            l2.X1 = MazeGen.Maze.finishCellPoint.X * size;
-            l2.X2 = MazeGen.Maze.finishCellPoint.X * size + size;
+            l2.X1 = MazeGen.Maze_Recursive_Backtracker.finishCellPoint.X * size;
+            l2.X2 = MazeGen.Maze_Recursive_Backtracker.finishCellPoint.X * size + size;
 
-            l2.Y1 = MazeGen.Maze.finishCellPoint.Y * size;
-            l2.Y2 = MazeGen.Maze.finishCellPoint.Y * size + size;
+            l2.Y1 = MazeGen.Maze_Recursive_Backtracker.finishCellPoint.Y * size;
+            l2.Y2 = MazeGen.Maze_Recursive_Backtracker.finishCellPoint.Y * size + size;
             l2.Stroke = new SolidColorBrush(Colors.Red);
             canvas.Children.Add(l2);
 
@@ -100,7 +100,6 @@ namespace WpfApplication1
                     }
                 } //for y
             }// for x
-            
         }
     }
 }
