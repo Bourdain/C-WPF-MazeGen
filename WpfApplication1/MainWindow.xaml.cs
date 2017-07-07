@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +21,10 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public void FillCanvas(Canvas canvas, MazeGen.Maze m)
         {
-            InitializeComponent();
-            MazeGen.Maze_Recursive_Backtracker m = new MazeGen.Maze_Recursive_Backtracker(20,5);
 
-
+            
             int size = 25;
 
             Line l;
@@ -43,8 +42,8 @@ namespace WpfApplication1
             {
                 for (int y = 0; y < m.maze.GetLength(1); y++)
                 {
-                   l = new Line();
-                   l.Stroke = Brushes.Black;
+                    l = new Line();
+                    l.Stroke = System.Windows.Media.Brushes.Black;
                     l.StrokeThickness = 1;
 
                     if (m.maze[x, y].wallUp)
@@ -58,7 +57,7 @@ namespace WpfApplication1
                     }
 
                     l = new Line();
-                    l.Stroke = Brushes.Black;
+                    l.Stroke = System.Windows.Media.Brushes.Black;
                     l.StrokeThickness = 1;
 
                     if (m.maze[x, y].wallDown)
@@ -72,7 +71,7 @@ namespace WpfApplication1
                     }
 
                     l = new Line();
-                    l.Stroke = Brushes.Black;
+                    l.Stroke = System.Windows.Media.Brushes.Black;
                     l.StrokeThickness = 1;
 
                     if (m.maze[x, y].wallLeft)
@@ -86,7 +85,7 @@ namespace WpfApplication1
                     }
 
                     l = new Line();
-                    l.Stroke = Brushes.Black;
+                    l.Stroke = System.Windows.Media.Brushes.Black;
                     l.StrokeThickness = 1;
 
                     if (m.maze[x, y].wallRight)
@@ -101,5 +100,15 @@ namespace WpfApplication1
                 } //for y
             }// for x
         }
+        public MainWindow()
+        {
+            InitializeComponent();
+            MazeGen.Maze_Recursive_Backtracker m = new MazeGen.Maze_Recursive_Backtracker(20, 20);
+            //FillCanvas(canvas, m);
+            int size = 100, thickness = size / 10 > 0 ? size / 10 : 1;
+            
+            MazeGen.MazeUtils.ExportToImage(@"D:/text.png", m, size, thickness);
+        }
+
     }
 }

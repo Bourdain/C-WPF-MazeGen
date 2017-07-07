@@ -6,9 +6,79 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace MazeGen
 {
+    public class MazeUtils
+    {
+        /// <summary>
+        /// Utility functions that are not related to generating mazes.
+        /// </summary>
+        /// <param name="path">Path to export image to</param>
+        /// <param name="m">The array of maze cells</param>
+        /// <param name="size">Size, in pixels of cells</param>
+        /// <param name="thick">Line thickness</param>
+        public static void ExportToImage(string path, MazeGen.Maze m, int size, int thick)
+        {
+            Bitmap bit = new Bitmap(m.maze.GetLength(0) * size + thick * 2, m.maze.GetLength(1) * size + thick * 2);
+            Graphics g = Graphics.FromImage(bit);
+            System.Drawing.Pen p = new System.Drawing.Pen(System.Drawing.Color.Purple, thick);
+
+            for (int x = 0; x < m.maze.GetLength(0); x++)
+            {
+                for (int y = 0; y < m.maze.GetLength(1); y++)
+                {
+
+                    if (m.maze[x, y].wallUp)
+                    {
+                        int X1 = x * size;
+                        int Y1 = y * size;
+
+                        int X2 = x * size + size;
+                        int Y2 = y * size;
+                        g.DrawLine(p, X1+thick, Y1+thick, X2+thick, Y2+thick);
+                    }
+
+                    if (m.maze[x, y].wallDown)
+                    {
+                        int X1 = x * size;
+                        int Y1 = y * size + size;
+
+                        int X2 = x * size + size;
+                        int Y2 = y * size + size;
+                        g.DrawLine(p, X1 + thick, Y1 + thick, X2 + thick, Y2 + thick);
+                    }
+
+                    if (m.maze[x, y].wallLeft)
+                    {
+                        int X1 = x * size;
+                        int Y1 = y * size;
+
+                        int X2 = x * size;
+                        int Y2 = y * size + size;
+                        g.DrawLine(p, X1 + thick, Y1 + thick, X2 + thick, Y2 + thick);
+                    }
+
+                    if (m.maze[x, y].wallRight)
+                    {
+                        int X1 = x * size + size;
+                        int Y1 = y * size;
+
+                        int X2 = x * size + size;
+                        int Y2 = y * size + size;
+                        g.DrawLine(p, X1 + thick, Y1 + thick, X2 + thick, Y2 + thick);
+                    }
+                } //for y
+            }// for x
+            g.Save();
+            bit.Save(path);
+        }
+
+    }
     public class MazeCell
     {
         public bool isVisited;
@@ -69,7 +139,7 @@ namespace MazeGen
 
         public static int numMaxProc = 0;
         #endregion
-
+        public Point finish, init;
 
         public Maze_Recursive_Backtracker(int width, int height):base(width,height)
         {
@@ -91,6 +161,8 @@ namespace MazeGen
                     ProcessMaze(new Point(width - 1, r.Next(height)), Movement.goRight, 0);
                     break;
             }
+            this.init = Maze_Recursive_Backtracker.initCellPoint;
+            this.finish = Maze_Recursive_Backtracker.finishCellPoint;
         }
 
         /// <summary>
